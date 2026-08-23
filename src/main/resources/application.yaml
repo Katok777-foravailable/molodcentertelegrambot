@@ -1,3 +1,18 @@
 spring:
   application:
     name: molodcentertelegrambot
+  config:
+    import: "classpath:messages.yml"
+
+telegram:
+  bot:
+    token: ${TELEGRAM_BOT_TOKEN}
+    long-polling:
+      drop-pending-on-start: true
+
+app:
+  redis-live-time: "900000" # в мілісекундах
+
+servers:
+  molodcenter: "localhost:8081"
+  molodcenteruserservice: "localhost:8082"

@@ -1,0 +1,10 @@
+commands:
+  start:
+    message: |
+      Привіт\! Це бот молодіжних центрів України
+      Вибери що хочеш переглянути 👇
+    buttons:
+      molod-centers: "Молодіжні центри"
+      profile: "Профіль"
+      subscription-events: "Зареєстровані події"
+      subscription-categories: "Підписки"

@@ -17,24 +17,16 @@ repositories {
 	mavenCentral()
 }
 
-extra["springCloudVersion"] = "2025.1.2"
-
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-redis")
-	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("io.github.ksilisk:telegram-bot-spring-boot-starter:0.7.0")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.9")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
 	testCompileOnly("org.projectlombok:lombok")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testAnnotationProcessor("org.projectlombok:lombok")
-}
-
-dependencyManagement {
-	imports {
-		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-	}
 }
 
 tasks.withType<Test> {
