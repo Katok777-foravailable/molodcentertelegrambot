@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "4.1.1"
+	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -17,13 +17,19 @@ repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.3")
+	}
+}
+
 dependencies {
 	implementation("io.github.ksilisk:telegram-bot-spring-boot-starter:0.7.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
-	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.9")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
+//	testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
 	testCompileOnly("org.projectlombok:lombok")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testAnnotationProcessor("org.projectlombok:lombok")

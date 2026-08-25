@@ -1,10 +1,20 @@
-commands:
-  start:
-    message: |
-      Привіт\! Це бот молодіжних центрів України
-      Вибери що хочеш переглянути 👇
-    buttons:
-      molod-centers: "Молодіжні центри"
-      profile: "Профіль"
-      subscription-events: "Зареєстровані події"
-      subscription-categories: "Підписки"
+start:
+  message: |
+    Привіт\! Це бот молодіжних центрів України
+    Вибери що хочеш переглянути 👇
+  buttons:
+    molod-centers: "Молодіжні центри"
+    profile: "Профіль"
+    subscription-events: "Зареєстровані події"
+    subscription-categories: "Підписки"
+
+profile:
+  message: |
+    Ім'я: {0}
+    Фамілія: {1}
+    Номер телефону: {2}
+  not-found: Ваш профіль не знайдено\. Зареєструватися?
+  register: "Зареєструватися"
+
+general:
+  back-to-menu: "Повернутися в меню"
