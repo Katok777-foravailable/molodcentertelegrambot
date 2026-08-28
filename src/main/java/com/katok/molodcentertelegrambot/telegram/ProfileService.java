@@ -54,7 +54,7 @@ public class ProfileService {
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(registerKeyboard);
         } else {
-            sendMessage = new SendMessage(userId, MessageFormat.format(message, userDto.getName(), userDto.getLastName(), userDto.getPhoneNumber()));
+            sendMessage = new SendMessage(userId, MessageFormat.format(message, userDto.getName(), userDto.getLastName(), userDto.getPhoneNumber().replaceAll("\\+", "\\\\+")));
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(backToMenuKeyboard);
         }

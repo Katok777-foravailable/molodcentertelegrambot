@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MessageHandler implements MessageUpdateHandler {
+public class FSMMessageHandler implements MessageUpdateHandler {
     private final List<FSMUpdateHandler> fsmUpdateHandlers;
     private final FSMService fsmService;
 

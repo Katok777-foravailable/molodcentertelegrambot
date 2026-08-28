@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class StartHandler implements CommandUpdateHandler {
+public class StartCommandHandler implements CommandUpdateHandler {
     private final StartService startService;
     private final TelegramBotExecutor executor;
 
