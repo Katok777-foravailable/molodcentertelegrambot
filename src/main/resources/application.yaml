@@ -3,6 +3,10 @@ spring:
     name: molodcentertelegrambot
   config:
     import: "classpath:messages.yml"
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 telegram:
   bot:
