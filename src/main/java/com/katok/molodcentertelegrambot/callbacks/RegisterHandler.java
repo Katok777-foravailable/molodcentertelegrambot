@@ -2,6 +2,7 @@ package com.katok.molodcentertelegrambot.callbacks;
 
 import com.katok.molodcentertelegrambot.telegram.TelegramRegisterService;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.callback.CallbackUpdateHandler;
 import io.ksilisk.telegrambot.core.update.Updates;
@@ -23,6 +24,10 @@ public class RegisterHandler implements CallbackUpdateHandler {
 
     @Override
     public void handle(Update update) {
+        String callbackQueryId = update.callbackQuery().id();
+        AnswerCallbackQuery answer = new AnswerCallbackQuery(callbackQueryId);
+        executor.execute(answer);
+
         executor.execute(telegramRegisterService.startRegister(Updates.userId(update), Updates.chatId(update)));
     }
 }

@@ -43,7 +43,7 @@ public class ProfileService {
     }
 
     public SendMessage getMessage(long userId) {
-        ResponseEntity<UserDto> responseUser = userClient.getUser(userId, null);
+        ResponseEntity<UserDto> responseUser = userClient.getUser(userId, null, null);
 
         UserDto userDto = responseUser.getBody();
 
@@ -54,7 +54,7 @@ public class ProfileService {
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(registerKeyboard);
         } else {
-            sendMessage = new SendMessage(userId, MessageFormat.format(message, userDto.getName(), userDto.getLastName(), userDto.getPhoneNumber().replaceAll("\\+", "\\\\+")));
+            sendMessage = new SendMessage(userId, MessageFormat.format(message, userDto.getName(), userDto.getLastName(), userDto.getPhoneNumber().replaceAll("\\+", "\\\\+"), userDto.getExternalId()));
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(backToMenuKeyboard);
         }

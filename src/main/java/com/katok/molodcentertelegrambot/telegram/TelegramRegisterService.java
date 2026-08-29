@@ -50,7 +50,7 @@ public class TelegramRegisterService {
     }
 
     public SendMessage startRegister(Long userId, long chatId) {
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null);
+        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);
 
         SendMessage sendMessage;
 

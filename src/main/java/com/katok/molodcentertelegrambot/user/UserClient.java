@@ -24,7 +24,8 @@ public interface UserClient {
 
     @GetMapping("/search")
     ResponseEntity<UserDto> getUser(@RequestParam(required = false) Long telegramId,
-                                           @RequestParam(required = false) String phoneNumber);
+                                    @RequestParam(required = false) String phoneNumber,
+                                    @RequestParam(required = false) String externalId);
 
     @GetMapping
     Page<UserDto> getUsers(@RequestParam(defaultValue = "0") int page);
