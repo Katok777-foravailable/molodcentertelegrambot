@@ -1,9 +1,9 @@
 package com.katok.molodcentertelegrambot.bot.telegram;
 
 import com.katok.molodcentertelegrambot.bot.fsm.FSMService;
-import com.katok.molodcentertelegrambot.bot.register.RegisterService;
-import com.katok.molodcentertelegrambot.bot.register.RegisterStatus;
-import com.katok.molodcentertelegrambot.bot.register.UserRegistrationNotFound;
+import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterService;
+import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterStatus;
+import com.katok.molodcentertelegrambot.bot.userregister.UserRegistrationNotFound;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TelegramRegisterService {
+public class TelegramUserRegisterService {
     private final FSMService fsmService;
-    private final RegisterService registerService;
+    private final UserRegisterService userRegisterService;
     private final UserClient userClient;
 
     @Value("${register.already-register}")
@@ -58,8 +58,8 @@ public class TelegramRegisterService {
             sendMessage = new SendMessage(chatId, alreadyRegister);
         } else {
             sendMessage = new SendMessage(chatId, askLastName);
-            registerService.startRegister(userId);
-            fsmService.updateState(userId, RegisterStatus.LAST_NAME.name());
+            userRegisterService.startRegister(userId);
+            fsmService.updateState(userId, UserRegisterStatus.LAST_NAME.name());
         }
 
         return sendMessage;
@@ -69,11 +69,11 @@ public class TelegramRegisterService {
         SendMessage sendMessage;
 
         try {
-            registerService.setName(userId, name);
+            userRegisterService.setName(userId, name);
 
             sendMessage = new SendMessage(chatId, askContact);
             sendMessage.setReplyMarkup(keyboardMarkup);
-            fsmService.updateState(userId, RegisterStatus.PHONE_NUMBER.name());
+            fsmService.updateState(userId, UserRegisterStatus.PHONE_NUMBER.name());
         } catch (UserRegistrationNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
@@ -85,10 +85,10 @@ public class TelegramRegisterService {
         SendMessage sendMessage;
 
         try {
-            registerService.setLastName(userId, lastName);
+            userRegisterService.setLastName(userId, lastName);
 
             sendMessage = new SendMessage(chatId, askName);
-            fsmService.updateState(userId, RegisterStatus.NAME.name());
+            fsmService.updateState(userId, UserRegisterStatus.NAME.name());
         } catch (UserRegistrationNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
@@ -100,8 +100,8 @@ public class TelegramRegisterService {
         SendMessage sendMessage;
 
         try {
-            registerService.setPhoneNumber(userId, phoneNumber);
-            registerService.finishRegistration(userId);
+            userRegisterService.setPhoneNumber(userId, phoneNumber);
+            userRegisterService.finishRegistration(userId);
             fsmService.deleteState(userId);
 
             sendMessage = new SendMessage(chatId, finish);

@@ -1,8 +1,8 @@
-package com.katok.molodcentertelegrambot.bot.register.messages;
+package com.katok.molodcentertelegrambot.bot.userregister.messages;
 
 import com.katok.molodcentertelegrambot.bot.message.FSMUpdateHandler;
-import com.katok.molodcentertelegrambot.bot.register.RegisterStatus;
-import com.katok.molodcentertelegrambot.bot.telegram.TelegramRegisterService;
+import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterStatus;
+import com.katok.molodcentertelegrambot.bot.telegram.TelegramUserRegisterService;
 import com.pengrad.telegrambot.model.Contact;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
@@ -14,13 +14,13 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class RegisterPhoneNumberHandler implements FSMUpdateHandler {
+public class UserRegisterPhoneNumberHandler implements FSMUpdateHandler {
     private final TelegramBotExecutor executor;
-    private final TelegramRegisterService telegramRegisterService;
+    private final TelegramUserRegisterService telegramUserRegisterService;
 
     @Override
     public Set<String> states() {
-        return Set.of(RegisterStatus.PHONE_NUMBER.name());
+        return Set.of(UserRegisterStatus.PHONE_NUMBER.name());
     }
 
     @Override
@@ -34,6 +34,6 @@ public class RegisterPhoneNumberHandler implements FSMUpdateHandler {
             return;
         }
 
-        executor.execute(telegramRegisterService.setPhoneNumber(Updates.userId(update), Updates.chatId(update), contact.phoneNumber()));
+        executor.execute(telegramUserRegisterService.setPhoneNumber(Updates.userId(update), Updates.chatId(update), contact.phoneNumber()));
     }
 }

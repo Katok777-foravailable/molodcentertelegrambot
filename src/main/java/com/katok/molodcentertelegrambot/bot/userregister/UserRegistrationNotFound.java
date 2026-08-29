@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.register;
+package com.katok.molodcentertelegrambot.bot.userregister;
 
 public class UserRegistrationNotFound extends Exception {
     public UserRegistrationNotFound(String message) {

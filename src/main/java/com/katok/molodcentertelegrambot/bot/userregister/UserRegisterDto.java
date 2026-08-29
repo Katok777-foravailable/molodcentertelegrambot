@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.register;
+package com.katok.molodcentertelegrambot.bot.userregister;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @RedisHash(value = "Register")
 @Data
 @Builder
-public class RegisterDto implements Serializable {
+public class UserRegisterDto implements Serializable {
     @Id
     private Long userId;
 
