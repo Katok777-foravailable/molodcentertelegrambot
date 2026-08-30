@@ -16,4 +16,5 @@ public class UserDto {
     private String name;
     private String lastName;
     private String phoneNumber;
+    private Short adminRank;
 }

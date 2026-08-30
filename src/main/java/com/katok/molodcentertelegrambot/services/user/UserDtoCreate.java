@@ -19,4 +19,5 @@ public class UserDtoCreate {
     private String lastName;
     @Size(max = 20)
     private String phoneNumber;
+    private Short adminRank;
 }

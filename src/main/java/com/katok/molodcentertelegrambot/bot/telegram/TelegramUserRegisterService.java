@@ -3,7 +3,7 @@ package com.katok.molodcentertelegrambot.bot.telegram;
 import com.katok.molodcentertelegrambot.bot.fsm.FSMService;
 import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterService;
 import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterStatus;
-import com.katok.molodcentertelegrambot.bot.userregister.UserRegistrationNotFound;
+import com.katok.molodcentertelegrambot.exception.ValueNotFound;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
@@ -23,19 +23,19 @@ public class TelegramUserRegisterService {
     private final UserRegisterService userRegisterService;
     private final UserClient userClient;
 
-    @Value("${register.already-register}")
+    @Value("${register.user.already-register}")
     private String alreadyRegister;
-    @Value("${register.last-name}")
+    @Value("${register.user.last-name}")
     private String askLastName;
-    @Value("${register.name}")
+    @Value("${register.user.name}")
     private String askName;
-    @Value("${register.contact}")
+    @Value("${register.user.contact}")
     private String askContact;
-    @Value("${register.finish}")
+    @Value("${register.user.finish}")
     private String finish;
     @Value("${register.timeout}")
     private String timeout;
-    @Value("${register.send-contact}")
+    @Value("${register.user.send-contact}")
     private String sendContact;
 
     private ReplyKeyboardMarkup keyboardMarkup;
@@ -74,7 +74,7 @@ public class TelegramUserRegisterService {
             sendMessage = new SendMessage(chatId, askContact);
             sendMessage.setReplyMarkup(keyboardMarkup);
             fsmService.updateState(userId, UserRegisterStatus.PHONE_NUMBER.name());
-        } catch (UserRegistrationNotFound e) {
+        } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
 
@@ -89,7 +89,7 @@ public class TelegramUserRegisterService {
 
             sendMessage = new SendMessage(chatId, askName);
             fsmService.updateState(userId, UserRegisterStatus.NAME.name());
-        } catch (UserRegistrationNotFound e) {
+        } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
 
@@ -106,7 +106,7 @@ public class TelegramUserRegisterService {
 
             sendMessage = new SendMessage(chatId, finish);
             sendMessage.setReplyMarkup(new ReplyKeyboardRemove(true));
-        } catch (UserRegistrationNotFound e) {
+        } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
 

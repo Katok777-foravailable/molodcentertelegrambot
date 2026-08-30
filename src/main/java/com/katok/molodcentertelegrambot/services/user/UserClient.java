@@ -28,7 +28,12 @@ public interface UserClient {
                                     @RequestParam(required = false) String externalId);
 
     @GetMapping
-    Page<UserDto> getUsers(@RequestParam(defaultValue = "0") int page);
+    Page<UserDto> getUsers(@RequestParam(defaultValue = "0") int page,
+                           @RequestParam(required = false) Short adminRank);
+
+    @PatchMapping("/{id}")
+    UserDto updateUser(@PathVariable Long id,
+                              @RequestBody UserDtoCreate userDtoCreate);
 
     @PostMapping
     UserDto createUser(@Valid @RequestBody UserDtoCreate userDtoCreate);
