@@ -23,6 +23,6 @@ public class StartCommandHandler implements CommandUpdateHandler {
 
     @Override
     public void handle(Update update) {
-        executor.execute(startService.getMessage(Updates.chatId(update)));
+        executor.execute(startService.getMessage(Updates.userId(update), Updates.chatId(update)));
     }
 }

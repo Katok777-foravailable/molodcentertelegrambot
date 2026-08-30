@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister;
+package com.katok.molodcentertelegrambot.bot.cooldown;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,17 +8,16 @@ import org.springframework.data.redis.core.TimeToLive;
 
 import java.util.concurrent.TimeUnit;
 
-@RedisHash(value = "YouthCenterRegister")
+@RedisHash(value = "UserCooldown")
 @Data
 @Builder
-public class YouthCenterRegisterDto {
+public class CooldownDto {
     @Id
     private Long userId;
 
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private int timeToLive;
 
-    private String name;
-    private Float latitude;
-    private Float longitude;
+    @Builder.Default
+    private boolean warning = false;
 }

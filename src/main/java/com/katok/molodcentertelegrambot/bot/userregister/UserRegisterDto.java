@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 @RedisHash(value = "UserRegister")
 @Data
@@ -15,7 +16,7 @@ public class UserRegisterDto implements Serializable {
     @Id
     private Long userId;
 
-    @TimeToLive
+    @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private int timeToLive;
 
     private String name;

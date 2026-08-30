@@ -62,8 +62,8 @@ public class StartService {
         );
     }
 
-    public SendMessage getMessage(long userId) {
-        SendMessage sendMessage = new SendMessage(userId, message);
+    public SendMessage getMessage(long userId, long chatId) {
+        SendMessage sendMessage = new SendMessage(chatId, message);
         sendMessage.parseMode(ParseMode.MarkdownV2);
 
         ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);

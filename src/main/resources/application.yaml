@@ -15,6 +15,7 @@ telegram:
       drop-pending-on-start: true
 
 app:
+  user-action-cooldown: "1000" # в мілісекундах
   redis-live-time: "900000" # в мілісекундах
 
 servers:

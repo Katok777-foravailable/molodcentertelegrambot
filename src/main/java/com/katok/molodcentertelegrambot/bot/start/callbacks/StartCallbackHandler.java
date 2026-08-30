@@ -28,6 +28,6 @@ public class StartCallbackHandler implements CallbackUpdateHandler {
         AnswerCallbackQuery answer = new AnswerCallbackQuery(callbackQueryId);
         executor.execute(answer);
 
-        executor.execute(startService.getMessage(Updates.chatId(update)));
+        executor.execute(startService.getMessage(Updates.userId(update), Updates.chatId(update)));
     }
 }
