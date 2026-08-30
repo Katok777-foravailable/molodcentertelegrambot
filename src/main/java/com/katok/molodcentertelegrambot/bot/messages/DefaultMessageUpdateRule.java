@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.message;
+package com.katok.molodcentertelegrambot.bot.messages;
 
 import com.pengrad.telegrambot.model.Message;
 import io.ksilisk.telegrambot.core.handler.update.UpdateHandler;

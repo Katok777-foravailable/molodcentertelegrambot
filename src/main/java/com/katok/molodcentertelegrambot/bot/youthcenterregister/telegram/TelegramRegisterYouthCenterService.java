@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.telegram;
+package com.katok.molodcentertelegrambot.bot.youthcenterregister.telegram;
 
 import com.katok.molodcentertelegrambot.bot.fsm.FSMService;
 import com.katok.molodcentertelegrambot.bot.youthcenterregister.YouthCenterRegisterService;

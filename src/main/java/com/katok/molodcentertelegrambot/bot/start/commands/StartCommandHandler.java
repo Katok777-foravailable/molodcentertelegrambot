@@ -1,6 +1,6 @@
-package com.katok.molodcentertelegrambot.bot.commands;
+package com.katok.molodcentertelegrambot.bot.start.commands;
 
-import com.katok.molodcentertelegrambot.bot.telegram.StartService;
+import com.katok.molodcentertelegrambot.bot.start.StartService;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.command.CommandUpdateHandler;

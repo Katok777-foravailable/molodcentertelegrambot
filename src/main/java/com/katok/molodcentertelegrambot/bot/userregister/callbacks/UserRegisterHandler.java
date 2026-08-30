@@ -1,6 +1,6 @@
-package com.katok.molodcentertelegrambot.bot.callbacks;
+package com.katok.molodcentertelegrambot.bot.userregister.callbacks;
 
-import com.katok.molodcentertelegrambot.bot.telegram.StartService;
+import com.katok.molodcentertelegrambot.bot.userregister.telegram.TelegramUserRegisterService;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.AnswerCallbackQuery;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
@@ -13,13 +13,13 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class StartCallbackHandler implements CallbackUpdateHandler {
-    private final StartService startService;
+public class UserRegisterHandler implements CallbackUpdateHandler {
+    private final TelegramUserRegisterService telegramUserRegisterService;
     private final TelegramBotExecutor executor;
 
     @Override
     public Set<String> callbacks() {
-        return Set.of("start");
+        return Set.of("register");
     }
 
     @Override
@@ -28,6 +28,6 @@ public class StartCallbackHandler implements CallbackUpdateHandler {
         AnswerCallbackQuery answer = new AnswerCallbackQuery(callbackQueryId);
         executor.execute(answer);
 
-        executor.execute(startService.getMessage(Updates.chatId(update)));
+        executor.execute(telegramUserRegisterService.startRegister(Updates.userId(update), Updates.chatId(update)));
     }
 }

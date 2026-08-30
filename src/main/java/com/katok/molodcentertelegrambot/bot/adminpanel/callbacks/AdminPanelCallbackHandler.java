@@ -1,6 +1,6 @@
-package com.katok.molodcentertelegrambot.bot.callbacks;
+package com.katok.molodcentertelegrambot.bot.adminpanel.callbacks;
 
-import com.katok.molodcentertelegrambot.bot.telegram.AdminPanelService;
+import com.katok.molodcentertelegrambot.bot.adminpanel.AdminPanelService;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.callback.CallbackUpdateHandler;

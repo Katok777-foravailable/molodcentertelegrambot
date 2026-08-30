@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.telegram;
+package com.katok.molodcentertelegrambot.bot.adminpanel;
 
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;

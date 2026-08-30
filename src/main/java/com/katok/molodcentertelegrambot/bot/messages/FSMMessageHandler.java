@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.message;
+package com.katok.molodcentertelegrambot.bot.messages;
 
 import com.katok.molodcentertelegrambot.bot.fsm.FSMService;
 import com.pengrad.telegrambot.model.Update;

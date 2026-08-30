@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.telegram;
+package com.katok.molodcentertelegrambot.bot.start;
 
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;

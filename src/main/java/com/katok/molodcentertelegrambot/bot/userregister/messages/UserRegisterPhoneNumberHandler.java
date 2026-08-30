@@ -1,8 +1,8 @@
 package com.katok.molodcentertelegrambot.bot.userregister.messages;
 
-import com.katok.molodcentertelegrambot.bot.message.FSMUpdateHandler;
+import com.katok.molodcentertelegrambot.bot.messages.FSMUpdateHandler;
 import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterStatus;
-import com.katok.molodcentertelegrambot.bot.telegram.TelegramUserRegisterService;
+import com.katok.molodcentertelegrambot.bot.userregister.telegram.TelegramUserRegisterService;
 import com.pengrad.telegrambot.model.Contact;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
