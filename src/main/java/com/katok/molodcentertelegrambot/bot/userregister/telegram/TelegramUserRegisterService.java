@@ -16,9 +16,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class TelegramUserRegisterService {
+    public final static Set<Character> accessChars = Collections.unmodifiableSet(new HashSet<>() {{
+        for (char letter : "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯя'".toCharArray()) {
+            add(letter);
+        }
+    }});
+
     private final FSMService fsmService;
     private final UserRegisterService userRegisterService;
     private final UserClient userClient;
@@ -27,8 +37,12 @@ public class TelegramUserRegisterService {
     private String alreadyRegister;
     @Value("${register.user.last-name}")
     private String askLastName;
+    @Value("${register.user.last-name-warn}")
+    private String lastNameWarn;
     @Value("${register.user.name}")
     private String askName;
+    @Value("${register.user.name-warn}")
+    private String nameWarn;
     @Value("${register.user.contact}")
     private String askContact;
     @Value("${register.user.finish}")
@@ -68,6 +82,17 @@ public class TelegramUserRegisterService {
     public SendMessage setName(Long userId, long chatId, String name) {
         SendMessage sendMessage;
 
+        if (name.length() > 30) {
+            return new SendMessage(chatId, nameWarn);
+        }
+        for (char letter : name.toCharArray()) {
+            if (accessChars.contains(letter)) {
+                continue;
+            }
+
+            return new SendMessage(chatId, nameWarn);
+        }
+
         try {
             userRegisterService.setName(userId, name);
 
@@ -83,6 +108,17 @@ public class TelegramUserRegisterService {
 
     public SendMessage setLastName(Long userId, long chatId, String lastName) {
         SendMessage sendMessage;
+
+        if (lastName.length() > 30) {
+            return new SendMessage(chatId, lastNameWarn);
+        }
+        for (char letter : lastName.toCharArray()) {
+            if (accessChars.contains(letter)) {
+                continue;
+            }
+
+            return new SendMessage(chatId, lastNameWarn);
+        }
 
         try {
             userRegisterService.setLastName(userId, lastName);
