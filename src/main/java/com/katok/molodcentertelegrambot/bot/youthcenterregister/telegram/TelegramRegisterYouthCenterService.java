@@ -44,7 +44,7 @@ public class TelegramRegisterYouthCenterService {
 
     public SendMessage startRegister(Long userId, long chatId) {
         youthCenterRegisterService.startRegister(userId);
-        fsmService.updateState(userId, YouthCenterRegisterStatus.NAME.name());
+        fsmService.updateState(userId, YouthCenterRegisterStatus.YOUTH_CENTER_REGISTER_NAME.name());
 
         return new SendMessage(chatId, youthCenterName);
     }
@@ -54,7 +54,7 @@ public class TelegramRegisterYouthCenterService {
 
         try {
             youthCenterRegisterService.setName(userId, name);
-            fsmService.updateState(userId, YouthCenterRegisterStatus.LOCATION.name());
+            fsmService.updateState(userId, YouthCenterRegisterStatus.YOUTH_CENTER_REGISTER_LOCATION.name());
 
             sendMessage = new SendMessage(chatId, sendLocation);
             sendMessage.setReplyMarkup(keyboardSendLocationMarkup);
@@ -71,6 +71,7 @@ public class TelegramRegisterYouthCenterService {
         try {
             youthCenterRegisterService.setLatitude(userId, location.latitude());
             youthCenterRegisterService.setLongitude(userId, location.longitude());
+            youthCenterRegisterService.finishRegistration(userId);
             fsmService.deleteState(userId);
 
             sendMessage = new SendMessage(chatId, finish);

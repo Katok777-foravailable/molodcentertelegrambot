@@ -73,7 +73,7 @@ public class TelegramUserRegisterService {
         } else {
             sendMessage = new SendMessage(chatId, askLastName);
             userRegisterService.startRegister(userId);
-            fsmService.updateState(userId, UserRegisterStatus.LAST_NAME.name());
+            fsmService.updateState(userId, UserRegisterStatus.USER_REGISTER_LAST_NAME.name());
         }
 
         return sendMessage;
@@ -98,7 +98,7 @@ public class TelegramUserRegisterService {
 
             sendMessage = new SendMessage(chatId, askContact);
             sendMessage.setReplyMarkup(keyboardMarkup);
-            fsmService.updateState(userId, UserRegisterStatus.PHONE_NUMBER.name());
+            fsmService.updateState(userId, UserRegisterStatus.USER_REGISTER_PHONE_NUMBER.name());
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
@@ -124,7 +124,7 @@ public class TelegramUserRegisterService {
             userRegisterService.setLastName(userId, lastName);
 
             sendMessage = new SendMessage(chatId, askName);
-            fsmService.updateState(userId, UserRegisterStatus.NAME.name());
+            fsmService.updateState(userId, UserRegisterStatus.USER_REGISTER_NAME.name());
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }

@@ -30,6 +30,8 @@ public class ProfileService {
     private String register;
     @Value("${general.back-to-menu}")
     private String backToMenu;
+    @Value("${profile.admin-rank}")
+    private String adminRank;
 
     @PostConstruct
     public void initKeyboard() {
@@ -54,7 +56,14 @@ public class ProfileService {
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(registerKeyboard);
         } else {
-            sendMessage = new SendMessage(userId, MessageFormat.format(message, userDto.getName(), userDto.getLastName(), userDto.getPhoneNumber().replaceAll("\\+", "\\\\+"), userDto.getExternalId()));
+            String adminRankMessage;
+            if (userDto.getAdminRank() > 0) {
+                adminRankMessage = MessageFormat.format(adminRank, userDto.getAdminRank());
+            } else {
+                adminRankMessage = "";
+            }
+
+            sendMessage = new SendMessage(userId, MessageFormat.format(message, userDto.getName(), userDto.getLastName(), userDto.getPhoneNumber().replaceAll("\\+", "\\\\+"), userDto.getExternalId(), adminRankMessage));
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(backToMenuKeyboard);
         }

@@ -18,6 +18,9 @@ app:
   user-action-cooldown: "1000" # в мілісекундах
   redis-live-time: "900000" # в мілісекундах
 
+permissions: # з якого рівня адміністратору можна робити дії
+  create-and-modify-youth-centers: 5
+
 servers:
   molodcenter: "localhost:8081"
   molodcenteruserservice: "localhost:8082"

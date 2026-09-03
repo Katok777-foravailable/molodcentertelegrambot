@@ -1,6 +1,6 @@
-package com.katok.molodcentertelegrambot.bot.start.callbacks;
+package com.katok.molodcentertelegrambot.bot.youthcenterregister.callbacks;
 
-import com.katok.molodcentertelegrambot.bot.start.StartService;
+import com.katok.molodcentertelegrambot.bot.youthcenterregister.telegram.TelegramRegisterYouthCenterService;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.callback.CallbackUpdateHandler;
@@ -12,17 +12,17 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class StartCallbackHandler implements CallbackUpdateHandler {
-    private final StartService startService;
+public class YouthCenterRegisterCallback implements CallbackUpdateHandler {
+    private final TelegramRegisterYouthCenterService telegramRegisterYouthCenterService;
     private final TelegramBotExecutor executor;
 
     @Override
     public Set<String> callbacks() {
-        return Set.of("start");
+        return Set.of("create-new-youth-center");
     }
 
     @Override
     public void handle(Update update) {
-        executor.execute(startService.getMessage(Updates.userId(update), Updates.chatId(update)));
+        executor.execute(telegramRegisterYouthCenterService.startRegister(Updates.userId(update), Updates.chatId(update)));
     }
 }

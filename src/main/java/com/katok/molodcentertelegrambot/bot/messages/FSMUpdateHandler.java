@@ -1,10 +1,9 @@
 package com.katok.molodcentertelegrambot.bot.messages;
 
-import com.pengrad.telegrambot.model.Update;
+import io.ksilisk.telegrambot.core.handler.update.UpdateHandler;
 
 import java.util.Set;
 
-public interface FSMUpdateHandler {
+public interface FSMUpdateHandler extends UpdateHandler {
     Set<String> states();
-    void handle(Update update);
 }

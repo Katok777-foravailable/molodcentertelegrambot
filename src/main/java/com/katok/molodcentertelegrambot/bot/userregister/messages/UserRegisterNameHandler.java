@@ -19,11 +19,16 @@ public class UserRegisterNameHandler implements FSMUpdateHandler {
 
     @Override
     public Set<String> states() {
-        return Set.of(UserRegisterStatus.NAME.name());
+        return Set.of(UserRegisterStatus.USER_REGISTER_NAME.name());
     }
 
     @Override
     public void handle(Update update) {
-        executor.execute(telegramUserRegisterService.setName(Updates.userId(update), Updates.chatId(update), update.message().text()));
+        String text = update.message().text();
+        if (text == null) {
+            return;
+        }
+
+        executor.execute(telegramUserRegisterService.setName(Updates.userId(update), Updates.chatId(update), text));
     }
 }

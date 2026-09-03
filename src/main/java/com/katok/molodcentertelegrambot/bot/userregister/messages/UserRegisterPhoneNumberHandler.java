@@ -20,7 +20,7 @@ public class UserRegisterPhoneNumberHandler implements FSMUpdateHandler {
 
     @Override
     public Set<String> states() {
-        return Set.of(UserRegisterStatus.PHONE_NUMBER.name());
+        return Set.of(UserRegisterStatus.USER_REGISTER_PHONE_NUMBER.name());
     }
 
     @Override

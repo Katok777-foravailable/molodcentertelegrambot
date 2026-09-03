@@ -1,7 +1,7 @@
 package com.katok.molodcentertelegrambot.bot.userregister;
 
 public enum UserRegisterStatus {
-    NAME,
-    LAST_NAME,
-    PHONE_NUMBER,
+    USER_REGISTER_NAME,
+    USER_REGISTER_LAST_NAME,
+    USER_REGISTER_PHONE_NUMBER,
 }
