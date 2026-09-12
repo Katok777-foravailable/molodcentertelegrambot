@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister;
+package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister;
 
 import com.katok.molodcentertelegrambot.exception.ValueNotFound;
 import com.katok.molodcentertelegrambot.services.youthcenter.GeoLocation;

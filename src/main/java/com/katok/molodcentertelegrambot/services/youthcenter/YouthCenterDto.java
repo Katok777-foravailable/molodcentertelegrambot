@@ -11,4 +11,5 @@ public class YouthCenterDto {
     private Long id;
     private GeoLocation geoLocation;
     private String name;
+    private String externalId;
 }

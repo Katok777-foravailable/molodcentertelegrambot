@@ -1,11 +1,12 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister.telegram;
+package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister.telegram;
 
 import com.katok.molodcentertelegrambot.bot.fsm.FSMService;
-import com.katok.molodcentertelegrambot.bot.youthcenterregister.YouthCenterRegisterService;
-import com.katok.molodcentertelegrambot.bot.youthcenterregister.YouthCenterRegisterStatus;
+import com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister.YouthCenterRegisterService;
+import com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister.YouthCenterRegisterStatus;
 import com.katok.molodcentertelegrambot.exception.ValueNotFound;
 import com.pengrad.telegrambot.model.Location;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -24,7 +25,7 @@ public class TelegramRegisterYouthCenterService {
     private String youthCenterName;
     @Value("${register.youth-center.send-location}")
     private String sendLocation;
-    @Value("${register.youth-center.send-your-location}")
+    @Value("${general.send-your-location}")
     private String sendYourLocation;
     @Value("${register.youth-center.finish}")
     private String finish;
@@ -46,7 +47,10 @@ public class TelegramRegisterYouthCenterService {
         youthCenterRegisterService.startRegister(userId);
         fsmService.updateState(userId, YouthCenterRegisterStatus.YOUTH_CENTER_REGISTER_NAME.name());
 
-        return new SendMessage(chatId, youthCenterName);
+        SendMessage sendMessage = new SendMessage(chatId, youthCenterName);
+        sendMessage.parseMode(ParseMode.MarkdownV2);
+
+        return sendMessage;
     }
 
     public SendMessage setName(Long userId, long chatId, String name) {
@@ -61,6 +65,7 @@ public class TelegramRegisterYouthCenterService {
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
+        sendMessage.parseMode(ParseMode.MarkdownV2);
 
         return sendMessage;
     }
@@ -79,6 +84,7 @@ public class TelegramRegisterYouthCenterService {
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
+        sendMessage.parseMode(ParseMode.MarkdownV2);
 
         return sendMessage;
     }

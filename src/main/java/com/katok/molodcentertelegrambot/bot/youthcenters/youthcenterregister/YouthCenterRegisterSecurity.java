@@ -1,9 +1,10 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister;
+package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister;
 
 import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.update.Updates;
@@ -43,7 +44,10 @@ public class YouthCenterRegisterSecurity {
         }
 
         if (userDto.getAdminRank() < permissionRank) {
-            executor.execute(new SendMessage(chatId, noPermission));
+            SendMessage sendMessage = new SendMessage(chatId, noPermission);
+            sendMessage.setParseMode(ParseMode.MarkdownV2);
+
+            executor.execute(sendMessage);
             return null;
         }
 

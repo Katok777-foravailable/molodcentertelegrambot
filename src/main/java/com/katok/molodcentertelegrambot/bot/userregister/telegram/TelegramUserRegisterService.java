@@ -7,6 +7,7 @@ import com.katok.molodcentertelegrambot.exception.ValueNotFound;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -75,6 +76,7 @@ public class TelegramUserRegisterService {
             userRegisterService.startRegister(userId);
             fsmService.updateState(userId, UserRegisterStatus.USER_REGISTER_LAST_NAME.name());
         }
+        sendMessage.parseMode(ParseMode.MarkdownV2);
 
         return sendMessage;
     }
@@ -102,6 +104,7 @@ public class TelegramUserRegisterService {
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
+        sendMessage.parseMode(ParseMode.MarkdownV2);
 
         return sendMessage;
     }
@@ -128,6 +131,7 @@ public class TelegramUserRegisterService {
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
+        sendMessage.parseMode(ParseMode.MarkdownV2);
 
         return sendMessage;
     }
@@ -145,6 +149,7 @@ public class TelegramUserRegisterService {
         } catch (ValueNotFound e) {
             sendMessage = new SendMessage(chatId, timeout);
         }
+        sendMessage.parseMode(ParseMode.MarkdownV2);
 
         return sendMessage;
     }

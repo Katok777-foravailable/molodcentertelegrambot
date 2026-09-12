@@ -1,10 +1,10 @@
 package com.katok.molodcentertelegrambot.services.user;
 
+import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.usereventregistration.UserEventRegistrationDto;
 import com.katok.molodcentertelegrambot.services.usereventsubscription.UserEventSubscriptionDto;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +14,10 @@ public interface UserClient {
     UserDto getUserById(@PathVariable Long id);
 
     @GetMapping("/{id}/registration")
-    Page<UserEventRegistrationDto> getUserRegistrations(@PathVariable Long id,
+    CustomPage<UserEventRegistrationDto> getUserRegistrations(@PathVariable Long id,
                                                                @RequestParam(defaultValue = "0") int page);
     @GetMapping("/{id}/subscription")
-    Page<UserEventSubscriptionDto> getUserSubscriptions(@PathVariable Long id,
+    CustomPage<UserEventSubscriptionDto> getUserSubscriptions(@PathVariable Long id,
                                                                @RequestParam(required = false) Long categoryId,
                                                                @RequestParam(required = false) Long youthCenterId,
                                                                @RequestParam(defaultValue = "0") int page);
@@ -28,8 +28,8 @@ public interface UserClient {
                                     @RequestParam(required = false) String externalId);
 
     @GetMapping
-    Page<UserDto> getUsers(@RequestParam(defaultValue = "0") int page,
-                           @RequestParam(required = false) Short adminRank);
+    CustomPage<UserDto> getUsers(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(required = false) Short adminRank);
 
     @PatchMapping("/{id}")
     UserDto updateUser(@PathVariable Long id,

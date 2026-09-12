@@ -4,6 +4,7 @@ import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class AdminPanelService {
         }
 
         SendMessage sendMessage = new SendMessage(chatId, MessageFormat.format(message, userDto.getAdminRank()));
+        sendMessage.parseMode(ParseMode.MarkdownV2);
         sendMessage.replyMarkup(adminKeyboard);
         return sendMessage;
     }

@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister;
+package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister;
 
 import org.springframework.data.repository.CrudRepository;
 

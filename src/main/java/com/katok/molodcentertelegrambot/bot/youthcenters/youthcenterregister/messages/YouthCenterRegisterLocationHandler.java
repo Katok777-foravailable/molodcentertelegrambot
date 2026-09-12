@@ -1,8 +1,8 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister.messages;
+package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister.messages;
 
 import com.katok.molodcentertelegrambot.bot.messages.FSMUpdateHandler;
-import com.katok.molodcentertelegrambot.bot.youthcenterregister.YouthCenterRegisterStatus;
-import com.katok.molodcentertelegrambot.bot.youthcenterregister.telegram.TelegramRegisterYouthCenterService;
+import com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister.YouthCenterRegisterStatus;
+import com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister.telegram.TelegramRegisterYouthCenterService;
 import com.pengrad.telegrambot.model.Location;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;

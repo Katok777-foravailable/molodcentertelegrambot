@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.youthcenterregister;
+package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister;
 
 public enum YouthCenterRegisterStatus {
     YOUTH_CENTER_REGISTER_NAME,

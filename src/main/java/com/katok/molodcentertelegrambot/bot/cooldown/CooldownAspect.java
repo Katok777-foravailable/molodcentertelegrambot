@@ -1,6 +1,7 @@
 package com.katok.molodcentertelegrambot.bot.cooldown;
 
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.update.Updates;
@@ -21,7 +22,7 @@ public class CooldownAspect {
     @Value("${general.cooldown}")
     private String cooldown;
 
-    @Around("execution(* io.ksilisk.telegrambot.core.handler.update.UpdateHandler+.handle(..))")
+    @Around("execution(* io.ksilisk.telegrambot.core.handler.update.UpdateHandler+.handle(..)) && !target(com.katok.molodcentertelegrambot.bot.messages.FSMUpdateHandler)")
     public Object handleCooldown(ProceedingJoinPoint joinPoint) throws Throwable {
         Update update = (Update) joinPoint.getArgs()[0];
 
@@ -33,7 +34,10 @@ public class CooldownAspect {
 
         if (cooldownService.isCooldown(userId)) {
             if (!cooldownService.isWarning(userId)) {
-                executor.execute(new SendMessage(chatId.longValue(), cooldown));
+                SendMessage sendMessage = new SendMessage(chatId.longValue(), cooldown);
+                sendMessage.parseMode(ParseMode.MarkdownV2);
+
+                executor.execute(sendMessage);
                 cooldownService.warn(userId);
             }
             return null;

@@ -1,10 +1,10 @@
 package com.katok.molodcentertelegrambot.services.youthcenter;
 
+import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.category.CategoryDto;
 import com.katok.molodcentertelegrambot.services.event.EventDto;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +13,22 @@ public interface YouthCenterClient {
     @GetMapping("/{id}")
     ResponseEntity<YouthCenterDto> getYouthCenterById(@PathVariable Long id);
 
+    @GetMapping("/search")
+    ResponseEntity<YouthCenterDto> getYouthCenter(@RequestParam String externalId);
+
     @GetMapping
-    Page<YouthCenterDto> getYouthCentersByLocation(@RequestParam Double latitude,
-                                                          @RequestParam Double longitude,
-                                                          @RequestParam Double radius,
+    CustomPage<YouthCenterDto> getYouthCentersByLocation(@RequestParam Float latitude,
+                                                          @RequestParam Float longitude,
+                                                          @RequestParam Float radius,
                                                           @RequestParam(defaultValue = "0") int page);
 
     @GetMapping("/{id}/events")
-    Page<EventDto> getEventsByYouthCenter(@PathVariable Long id,
+    CustomPage<EventDto> getEventsByYouthCenter(@PathVariable Long id,
                                           @RequestParam(required = false) Long categoryId,
                                           @RequestParam(defaultValue = "0") int page);
 
     @GetMapping("/{id}/categories")
-    Page<CategoryDto> getCategoriesByYouthCenter(@PathVariable Long id,
+    CustomPage<CategoryDto> getCategoriesByYouthCenter(@PathVariable Long id,
                                                  @RequestParam(defaultValue = "0") int page);
 
     @PostMapping

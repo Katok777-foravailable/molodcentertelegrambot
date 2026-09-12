@@ -36,7 +36,7 @@ public class ProfileService {
     @PostConstruct
     public void initKeyboard() {
         registerKeyboard.addRow(
-                new InlineKeyboardButton(register).callbackData("register")
+                new InlineKeyboardButton(register).callbackData("user-register")
         );
 
         backToMenuKeyboard.addRow(

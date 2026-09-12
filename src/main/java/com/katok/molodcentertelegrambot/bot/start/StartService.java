@@ -38,7 +38,7 @@ public class StartService {
     @PostConstruct
     public void initKeyboard() {
         keyboard.addRow(
-                new InlineKeyboardButton(molodCenters).callbackData("molod-centers"),
+                new InlineKeyboardButton(molodCenters).callbackData("favourite-youth-center-page-0"),
                 new InlineKeyboardButton(profile).callbackData("profile")
         );
 
@@ -48,7 +48,7 @@ public class StartService {
         );
 
         adminKeyboard.addRow(
-                new InlineKeyboardButton(molodCenters).callbackData("molod-centers"),
+                new InlineKeyboardButton(molodCenters).callbackData("favourite-youth-center-page-0"),
                 new InlineKeyboardButton(profile).callbackData("profile")
         );
 
