@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.adminpanel.callbacks;
 
-import com.katok.molodcentertelegrambot.bot.adminpanel.AdminPanelService;
+import com.katok.molodcentertelegrambot.bot.adminpanel.telegram.TelegramAdminPanelService;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.callback.CallbackUpdateHandler;
@@ -14,7 +14,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AdminPanelCallbackHandler implements CallbackUpdateHandler {
     private final TelegramBotExecutor executor;
-    private final AdminPanelService adminPanelService;
+    private final TelegramAdminPanelService telegramAdminPanelService;
 
     @Override
     public Set<String> callbacks() {
@@ -23,6 +23,6 @@ public class AdminPanelCallbackHandler implements CallbackUpdateHandler {
 
     @Override
     public void handle(Update update) {
-        executor.execute(adminPanelService.getMessage(Updates.userId(update), Updates.chatId(update)));
+        executor.execute(telegramAdminPanelService.getMessage(Updates.userId(update), Updates.chatId(update)));
     }
 }

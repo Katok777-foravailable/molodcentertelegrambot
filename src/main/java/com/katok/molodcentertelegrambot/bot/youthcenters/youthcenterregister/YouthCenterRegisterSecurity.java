@@ -26,10 +26,10 @@ public class YouthCenterRegisterSecurity {
 
     @Value("${general.no-permission}")
     private String noPermission;
-    @Value("${permissions.create-and-modify-youth-centers}")
+    @Value("${permissions.create-youth-centers}")
     private int permissionRank;
 
-    @Around("within(com.katok.molodcentertelegrambot.bot.youthcenterregister..*) && execution(* io.ksilisk.telegrambot.core.handler.update.UpdateHandler+.handle(..))")
+    @Around("within(com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister..*) && execution(* io.ksilisk.telegrambot.core.handler.update.UpdateHandler+.handle(..))")
     public Object userAccess(ProceedingJoinPoint joinPoint) throws Throwable {
         Update update = (Update) joinPoint.getArgs()[0];
         Long userId = Updates.userId(update);
@@ -39,7 +39,7 @@ public class YouthCenterRegisterSecurity {
         UserDto userDto = userDtoResponseEntity.getBody();
 
         if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            executor.execute(profileService.getMessage(userId));
+            executor.execute(profileService.getMessage(chatId, userId));
             return null;
         }
 

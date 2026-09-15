@@ -19,7 +19,11 @@ app:
   redis-live-time: "900000" # в мілісекундах
 
 permissions: # з якого рівня адміністратору можна робити дії
-  create-and-modify-youth-centers: 5
+  create-youth-centers: 8
+  change-user-roles: 6
+
+user-roles:
+  change-user-roles: 10
 
 servers:
   molodcenter: "localhost:8081"

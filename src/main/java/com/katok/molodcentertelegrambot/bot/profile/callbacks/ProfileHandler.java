@@ -28,6 +28,6 @@ public class ProfileHandler implements CallbackUpdateHandler {
         AnswerCallbackQuery answer = new AnswerCallbackQuery(callbackQueryId);
         executor.execute(answer);
 
-        executor.execute(profileService.getMessage(Updates.userId(update)));
+        executor.execute(profileService.getMessage(Updates.chatId(update), Updates.userId(update)));
     }
 }

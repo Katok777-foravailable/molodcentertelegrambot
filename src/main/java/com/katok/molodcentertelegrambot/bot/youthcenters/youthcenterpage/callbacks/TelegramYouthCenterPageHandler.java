@@ -26,6 +26,6 @@ public class TelegramYouthCenterPageHandler implements CallbackUpdateHandler {
         String callbackData = update.callbackQuery().data();
         String externalId = callbackData.substring(18);
 
-        executor.execute(telegramYouthCenterPageService.getMessage(Updates.chatId(update), externalId));
+        executor.execute(telegramYouthCenterPageService.getMessage(Updates.chatId(update), Updates.userId(update), externalId));
     }
 }

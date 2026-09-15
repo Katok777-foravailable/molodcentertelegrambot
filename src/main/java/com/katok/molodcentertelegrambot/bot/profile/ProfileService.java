@@ -44,7 +44,7 @@ public class ProfileService {
         );
     }
 
-    public SendMessage getMessage(long userId) {
+    public SendMessage getMessage(long chatId, long userId) {
         ResponseEntity<UserDto> responseUser = userClient.getUser(userId, null, null);
 
         UserDto userDto = responseUser.getBody();

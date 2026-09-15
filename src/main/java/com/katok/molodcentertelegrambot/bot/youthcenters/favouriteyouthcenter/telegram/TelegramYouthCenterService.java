@@ -43,7 +43,7 @@ public class TelegramYouthCenterService {
         ResponseEntity<UserDto> responseEntityUserDto = userClient.getUser(userId, null, null);
         UserDto userDto = responseEntityUserDto.getBody();
         if (responseEntityUserDto.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(userId);
+            return profileService.getMessage(chatId, userId);
         }
 
         CustomPage<FavouriteYouthCenterDto> favouriteYouthCenterDtos = favouriteYouthCenterClient.getFavouriteYouthCenters(null, userDto.getId(), page);

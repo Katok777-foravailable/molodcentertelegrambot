@@ -47,7 +47,7 @@ public class TelegramMakeYouthCenterFavouriteService {
         UserDto userDto = userDtoResponseEntity.getBody();
 
         if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(userId);
+            return profileService.getMessage(chatId, userId);
         }
 
         if (!favouriteYouthCenterClient.getFavouriteYouthCenters(youthCenterDto.getId(), userDto.getId(), 0).getContent().isEmpty()) {

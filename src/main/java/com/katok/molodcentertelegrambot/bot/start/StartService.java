@@ -32,7 +32,7 @@ public class StartService {
     private String subscriptionEvents;
     @Value("${start.buttons.subscription-categories}")
     private String subscriptionCategories;
-    @Value("${start.buttons.admin-panel}")
+    @Value("${admin-panel.admin-panel}")
     private String adminPanel;
 
     @PostConstruct

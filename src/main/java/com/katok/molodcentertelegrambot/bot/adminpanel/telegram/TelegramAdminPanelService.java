@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.adminpanel;
+package com.katok.molodcentertelegrambot.bot.adminpanel.telegram;
 
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -16,7 +16,7 @@ import java.text.MessageFormat;
 
 @Component
 @RequiredArgsConstructor
-public class AdminPanelService {
+public class TelegramAdminPanelService {
     private final UserClient userClient;
     private final InlineKeyboardMarkup adminKeyboard = new InlineKeyboardMarkup();
 
