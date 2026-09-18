@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.userrole;
+package com.katok.molodcentertelegrambot.bot.youthcenters.categories;
 
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -17,14 +17,14 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserRoleSecurity {
+public class YouthCenterCategorySecurity {
     private final UserRoleClient userRoleClient;
 
     @Value("${general.no-permission}")
     private String noPermission;
 
-    @Value("${user-roles.change-user-roles}")
-    private int changeUserRoles;
+    @Value("${user-roles.change-categories}")
+    private int changeCategories;
     @Value("${permissions.change-user-roles}")
     private int adminChangeUserRoles;
 
@@ -45,7 +45,7 @@ public class UserRoleSecurity {
                 }
             }
 
-            if (userRole < changeUserRoles) {
+            if (userRole < changeCategories) {
                 SendMessage sendMessage = new SendMessage(chatId, noPermission);
                 sendMessage.parseMode(ParseMode.MarkdownV2);
 

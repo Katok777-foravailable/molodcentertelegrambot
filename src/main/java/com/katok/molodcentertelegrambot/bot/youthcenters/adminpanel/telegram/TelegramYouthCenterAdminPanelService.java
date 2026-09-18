@@ -34,15 +34,21 @@ public class TelegramYouthCenterAdminPanelService {
     private String notExists;
     @Value("${general.no-permission}")
     private String noPermission;
-    @Value("${youth-center.admin-panel.add-user-role}")
+    @Value("${youth-center.admin-panel.change-user-role}")
     private String addUserRole;
     @Value("${general.back-to-menu}")
     private String backToMenu;
+    @Value("${youth-center.admin-panel.change-category}")
+    private String changeCategory;
 
     @Value("${user-roles.change-user-roles}")
     private int changeUserRoles;
+    @Value("${user-roles.change-categories}")
+    private int changeCategories;
     @Value("${permissions.change-user-roles}")
     private int adminChangeUserRoles;
+    @Value("${permissions.control-youth-centers}")
+    private int controlYouthCenters;
 
     public SendMessage getMessage(long chatId, long userId, String externalId) {
         if (externalId == null) {
@@ -80,7 +86,7 @@ public class TelegramYouthCenterAdminPanelService {
             }
         }
 
-        if (userRole == 0 && adminRank == 0) {
+        if (userRole <= 0 && adminRank <= 0) {
             SendMessage sendMessage = new SendMessage(chatId, noPermission);
             sendMessage.parseMode(ParseMode.MarkdownV2);
 
@@ -96,6 +102,9 @@ public class TelegramYouthCenterAdminPanelService {
 
         if (userRole >= changeUserRoles || adminRank >= adminChangeUserRoles) {
             keyboard.addRow(new InlineKeyboardButton(addUserRole).callbackData("add-new-user-role-" + externalId));
+        }
+        if (userRole >= changeCategories || adminRank >= controlYouthCenters) {
+            keyboard.addRow(new InlineKeyboardButton(changeCategory).callbackData("change-youth-center-categories-" + externalId));
         }
 
         keyboard.addRow(new InlineKeyboardButton(backToMenu).callbackData("start"));
