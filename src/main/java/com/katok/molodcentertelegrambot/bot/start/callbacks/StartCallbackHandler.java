@@ -13,12 +13,14 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 public class StartCallbackHandler implements CallbackUpdateHandler {
+    public final static String CALLBACK = "start";
+
     private final StartService startService;
     private final TelegramBotExecutor executor;
 
     @Override
     public Set<String> callbacks() {
-        return Set.of("start");
+        return Set.of(CALLBACK);
     }
 
     @Override
