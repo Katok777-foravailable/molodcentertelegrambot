@@ -32,6 +32,7 @@ user:
 
 category:
   add-new-category: Додати нову категорію
+  not-exist: Цієї категорії не існує
 
 general:
   back-to-menu: "Повернутися в головне меню"

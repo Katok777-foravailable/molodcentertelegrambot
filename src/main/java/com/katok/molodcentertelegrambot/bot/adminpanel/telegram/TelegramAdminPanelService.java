@@ -9,7 +9,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -35,9 +34,8 @@ public class TelegramAdminPanelService {
     }
 
     public SendMessage getMessage(Long userId, long chatId) {
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null || userDto.getAdminRank() < 1) {
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
+        if (userDto == null || userDto.getAdminRank() < 1) {
             return new SendMessage(chatId, noPermission);
         }
 

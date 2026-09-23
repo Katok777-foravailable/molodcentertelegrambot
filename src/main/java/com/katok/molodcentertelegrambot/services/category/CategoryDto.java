@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDto {
+    public final static int EXTERNAL_ID_LENGTH = 20;
+
     private Long id;
     private String name;
     private String externalId;

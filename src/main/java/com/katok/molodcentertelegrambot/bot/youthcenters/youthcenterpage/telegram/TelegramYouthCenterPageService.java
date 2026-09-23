@@ -14,7 +14,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -52,10 +51,9 @@ public class TelegramYouthCenterPageService {
             return sendMessage;
         }
 
-        ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenter(externalId);
-        YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+        YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenter(externalId).getBody();
 
-        if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+        if (youthCenterDto == null) {
             SendMessage sendMessage = new SendMessage(chatId, notExists);
             sendMessage.parseMode(ParseMode.MarkdownV2);
 
@@ -74,17 +72,15 @@ public class TelegramYouthCenterPageService {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(backToMenu)
                 .addRow(new InlineKeyboardButton(makeYouthCenterFavourite).callbackData("make-youth-center-favourite-" + youthCenterDto.getExternalId()));
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
 
-        if (!userDtoResponseEntity.getStatusCode().is4xxClientError() && userDto != null) {
+        if (userDto != null) {
             if (userDto.getAdminRank() > 0) {
                 keyboard.addRow(getAdminButton(externalId));
             } else {
-                ResponseEntity<CustomPage<UserRoleDto>> userRoleDtoResponseEntity = userRoleClient.getUserRoleByYouthCenterIdAndUserId(userDto.getId(), youthCenterDto.getId(), 0);
-                CustomPage<UserRoleDto> userRoleDtoCustomPage = userRoleDtoResponseEntity.getBody();
+                CustomPage<UserRoleDto> userRoleDtoCustomPage = userRoleClient.getUserRoleByYouthCenterIdAndUserId(userDto.getId(), youthCenterDto.getId(), 0).getBody();
 
-                if (!userDtoResponseEntity.getStatusCode().is4xxClientError() && userRoleDtoCustomPage != null) {
+                if (userRoleDtoCustomPage != null) {
                     if (!userRoleDtoCustomPage.getContent().isEmpty()) {
                         keyboard.addRow(getAdminButton(externalId));
                     }

@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.favouriteyouthcenter.telegram;
 
-import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
+import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.services.favouriteyouthcenter.FavouriteYouthCenterClient;
 import com.katok.molodcentertelegrambot.services.favouriteyouthcenter.FavouriteYouthCenterDtoCreate;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
@@ -11,7 +11,6 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -22,7 +21,7 @@ public class TelegramMakeYouthCenterFavouriteService {
     private final FavouriteYouthCenterClient favouriteYouthCenterClient;
     private final YouthCenterClient youthCenterClient;
     private final UserClient userClient;
-    private final ProfileService profileService;
+    private final TelegramProfileService telegramProfileService;
 
     @Value("${youth-center.favourite.successfully-added}")
     private String successful;
@@ -36,18 +35,16 @@ public class TelegramMakeYouthCenterFavouriteService {
             return notExists(chatId);
         }
 
-        ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenter(externalYouthCenterId);
-        YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+        YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenter(externalYouthCenterId).getBody();
 
-        if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+        if (youthCenterDto == null) {
             return notExists(chatId);
         }
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(chatId, userId);
+        if (userDto == null) {
+            return telegramProfileService.getMessage(chatId, userId);
         }
 
         if (!favouriteYouthCenterClient.getFavouriteYouthCenters(youthCenterDto.getId(), userDto.getId(), 0).getContent().isEmpty()) {

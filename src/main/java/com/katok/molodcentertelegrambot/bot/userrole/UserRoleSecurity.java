@@ -10,7 +10,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,12 +32,11 @@ public class UserRoleSecurity {
         short adminRank = userDto.getAdminRank();
 
         if (adminRank < adminChangeUserRoles) {
-            ResponseEntity<CustomPage<UserRoleDto>> userRoleDtoResponseEntity = userRoleClient.getUserRoleByYouthCenterIdAndUserId(userDto.getId(), youthCenterDto.getId(), 0);
-            CustomPage<UserRoleDto> userRoleDtoCustomPage = userRoleDtoResponseEntity.getBody();
+            CustomPage<UserRoleDto> userRoleDtoCustomPage = userRoleClient.getUserRoleByYouthCenterIdAndUserId(userDto.getId(), youthCenterDto.getId(), 0).getBody();
 
             short userRole = 0;
 
-            if (!userRoleDtoResponseEntity.getStatusCode().is4xxClientError() && userRoleDtoCustomPage != null) {
+            if (userRoleDtoCustomPage != null) {
                 List<UserRoleDto> userRoleDtos = userRoleDtoCustomPage.getContent();
                 if (userRoleDtos != null && !userRoleDtos.isEmpty()) {
                     userRole = userRoleDtos.getFirst().getRole();

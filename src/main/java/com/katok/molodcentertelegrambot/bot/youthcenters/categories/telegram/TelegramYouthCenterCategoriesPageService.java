@@ -1,9 +1,8 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.categories.telegram;
 
-import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
-import com.katok.molodcentertelegrambot.bot.youthcenters.categories.YouthCenterCategorySecurity;
+import com.katok.molodcentertelegrambot.bot.categories.categorypage.callbacks.CategoryPageCallbackHandler;
+import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.services.CustomPage;
-import com.katok.molodcentertelegrambot.services.category.CategoryClient;
 import com.katok.molodcentertelegrambot.services.category.CategoryDto;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -15,19 +14,16 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 
 @Service
 @RequiredArgsConstructor
-public class YouthCenterCategoriesPageService {
-    private final CategoryClient categoryClient;
+public class TelegramYouthCenterCategoriesPageService {
     private final YouthCenterClient youthCenterClient;
     private final UserClient userClient;
-    private final ProfileService profileService;
-    private final YouthCenterCategorySecurity youthCenterCategorySecurity;
+    private final TelegramProfileService telegramProfileService;
 
     @Value("${youth-center.category.list-message}")
     private String listMessage;
@@ -43,17 +39,15 @@ public class YouthCenterCategoriesPageService {
             return sendMessage;
         }
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(chatId, userId);
+        if (userDto == null) {
+            return telegramProfileService.getMessage(chatId, userId);
         }
 
-        ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenter(externalId);
-        YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+        YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenter(externalId).getBody();
 
-        if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+        if (youthCenterDto == null) {
             SendMessage sendMessage = new SendMessage(chatId, notExists);
             sendMessage.setParseMode(ParseMode.MarkdownV2);
 
@@ -70,7 +64,7 @@ public class YouthCenterCategoriesPageService {
         CustomPage<CategoryDto> categoryDtoCustomPage = youthCenterClient.getCategoriesByYouthCenter(youthCenterDto.getId(), page);
 
         for (CategoryDto categoryDto : categoryDtoCustomPage.getContent()) {
-            keyboard.addRow(new InlineKeyboardButton(categoryDto.getName()).callbackData("category-page-" + categoryDto.getExternalId()));
+            keyboard.addRow(new InlineKeyboardButton(categoryDto.getName()).callbackData(CategoryPageCallbackHandler.CALLBACK + categoryDto.getExternalId()));
         }
 
         sendMessage.parseMode(ParseMode.MarkdownV2);

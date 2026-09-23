@@ -1,7 +1,7 @@
 package com.katok.molodcentertelegrambot.bot.userrole.telegram;
 
 import com.katok.molodcentertelegrambot.bot.fsm.FSMService;
-import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
+import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.bot.userrole.UserRoleChangeStates;
 import com.katok.molodcentertelegrambot.bot.userrole.UserRoleSecurity;
 import com.katok.molodcentertelegrambot.bot.userrole.UserRoleService;
@@ -14,7 +14,6 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -24,7 +23,7 @@ import java.text.MessageFormat;
 public class TelegramChangeUserRoleService {
     private final YouthCenterClient youthCenterClient;
     private final UserClient userClient;
-    private final ProfileService profileService;
+    private final TelegramProfileService telegramProfileService;
     private final UserRoleSecurity userRoleSecurity;
     private final FSMService fsmService;
     private final UserRoleService userRoleService;
@@ -56,17 +55,15 @@ public class TelegramChangeUserRoleService {
             return sendMessage;
         }
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(adminUserId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(adminUserId, null, null).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(chatId, adminUserId);
+        if (userDto == null) {
+            return telegramProfileService.getMessage(chatId, adminUserId);
         }
 
-        ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenter(externalId);
-        YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+        YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenter(externalId).getBody();
 
-        if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+        if (youthCenterDto == null) {
             SendMessage sendMessage = new SendMessage(chatId, notExists);
             sendMessage.parseMode(ParseMode.MarkdownV2);
             return sendMessage;
@@ -93,10 +90,9 @@ public class TelegramChangeUserRoleService {
             return sendMessage;
         }
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(null, null, externalUserId);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(null, null, externalUserId).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
+        if (userDto == null) {
             SendMessage sendMessage = new SendMessage(chatId, idNotExist);
             sendMessage.parseMode(ParseMode.MarkdownV2);
             return sendMessage;
@@ -116,11 +112,10 @@ public class TelegramChangeUserRoleService {
     }
 
     public SendMessage setUserRole(long chatId, long adminUserId, short userRole) {
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(adminUserId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(adminUserId, null, null).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(chatId, adminUserId);
+        if (userDto == null) {
+            return telegramProfileService.getMessage(chatId, adminUserId);
         }
 
         if (userRole >= changeUserRolesRank && userDto.getAdminRank() < changeUserRolesAdminRank) {

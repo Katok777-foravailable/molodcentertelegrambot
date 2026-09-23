@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.categories.callbacks;
 
-import com.katok.molodcentertelegrambot.bot.youthcenters.categories.telegram.YouthCenterCategoriesPageService;
+import com.katok.molodcentertelegrambot.bot.youthcenters.categories.telegram.TelegramYouthCenterCategoriesPageService;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.callback.CallbackUpdateHandler;
@@ -16,7 +16,7 @@ public class YouthCenterCategoriesPageCallbackHandler implements CallbackUpdateH
     public final static String CALLBACK = "youth-center-categories-";
 
     private final TelegramBotExecutor executor;
-    private final YouthCenterCategoriesPageService youthCenterCategoriesPageService;
+    private final TelegramYouthCenterCategoriesPageService telegramYouthCenterCategoriesPageService;
 
     @Override
     public Set<String> callbacks() {
@@ -38,6 +38,6 @@ public class YouthCenterCategoriesPageCallbackHandler implements CallbackUpdateH
             page = Integer.parseInt(data[1]);
         } catch (NumberFormatException ignored) {return;}
 
-        executor.execute(youthCenterCategoriesPageService.getMessage(Updates.chatId(update), Updates.userId(update), externalId, page));
+        executor.execute(telegramYouthCenterCategoriesPageService.getMessage(Updates.chatId(update), Updates.userId(update), externalId, page));
     }
 }

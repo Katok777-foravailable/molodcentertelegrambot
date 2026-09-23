@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.youthcenterregister;
 
-import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
+import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.Update;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 public class YouthCenterRegisterSecurity {
     private final TelegramBotExecutor executor;
     private final UserClient userClient;
-    private final ProfileService profileService;
+    private final TelegramProfileService telegramProfileService;
 
     @Value("${general.no-permission}")
     private String noPermission;
@@ -39,7 +39,7 @@ public class YouthCenterRegisterSecurity {
         UserDto userDto = userDtoResponseEntity.getBody();
 
         if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            executor.execute(profileService.getMessage(chatId, userId));
+            executor.execute(telegramProfileService.getMessage(chatId, userId));
             return null;
         }
 

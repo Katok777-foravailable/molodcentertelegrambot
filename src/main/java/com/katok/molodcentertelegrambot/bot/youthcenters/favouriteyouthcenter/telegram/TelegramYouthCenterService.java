@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.favouriteyouthcenter.telegram;
 
-import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
+import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.favouriteyouthcenter.FavouriteYouthCenterClient;
 import com.katok.molodcentertelegrambot.services.favouriteyouthcenter.FavouriteYouthCenterDto;
@@ -14,7 +14,6 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class TelegramYouthCenterService {
     private final YouthCenterClient youthCenterClient;
     private final FavouriteYouthCenterClient favouriteYouthCenterClient;
     private final UserClient userClient;
-    private final ProfileService profileService;
+    private final TelegramProfileService telegramProfileService;
 
     @Value("${youth-center.left}")
     private String left;
@@ -40,18 +39,16 @@ public class TelegramYouthCenterService {
     private String yourFavouriteYouthCenters;
 
     public SendMessage getMessage(Long userId, long chatId, int page) {
-        ResponseEntity<UserDto> responseEntityUserDto = userClient.getUser(userId, null, null);
-        UserDto userDto = responseEntityUserDto.getBody();
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
         InlineKeyboardMarkup youthCenterKeyboard = new InlineKeyboardMarkup();
-        if (!responseEntityUserDto.getStatusCode().is4xxClientError() && userDto != null) {
+        if (userDto != null) {
             CustomPage<FavouriteYouthCenterDto> favouriteYouthCenterDtos = favouriteYouthCenterClient.getFavouriteYouthCenters(null, userDto.getId(), page);
             List<YouthCenterDto> youthCenterDtos = new ArrayList<>();
 
             for (FavouriteYouthCenterDto favouriteYouthCenterDto : favouriteYouthCenterDtos.getContent()) {
-                ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenterById(favouriteYouthCenterDto.getYouthCenterId());
-                YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+                YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenterById(favouriteYouthCenterDto.getYouthCenterId()).getBody();
 
-                if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+                if (youthCenterDto == null) {
                     favouriteYouthCenterClient.deleteFavouriteYouthCenter(favouriteYouthCenterDto.getId());
                     continue;
                 }
@@ -70,7 +67,7 @@ public class TelegramYouthCenterService {
                 new InlineKeyboardButton(findYouthCenterByLocation).callbackData("find-youth-center-by-location")
         );
 
-        if (!responseEntityUserDto.getStatusCode().is4xxClientError() && userDto != null) {
+        if (userDto != null) {
             youthCenterKeyboard.addRow(
                     new InlineKeyboardButton(left).callbackData("favourite-youth-center-page-" + Math.max(0, page - 1)),
                     new InlineKeyboardButton(String.valueOf(page + 1)).callbackData("easter-egg"),

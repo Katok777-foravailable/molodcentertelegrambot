@@ -9,7 +9,6 @@ import com.katok.molodcentertelegrambot.services.youthcenter.YouthCenterClient;
 import com.katok.molodcentertelegrambot.services.youthcenter.YouthCenterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,27 +52,20 @@ public class UserRoleService {
         UserRoleDto userRoleDto = userRoleRepository.findById(adminUserId)
                 .orElseThrow(() -> new ValueNotFound("UserRoleDto з adminUserId " + adminUserId + " не знайдено!"));
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(null, null, userRoleDto.getExternalUserId());
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(null, null, userRoleDto.getExternalUserId()).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
+        if (userDto == null) {
             throw new ValueNotFound("Юзера з зовнішнім айді " + userRoleDto.getExternalUserId() + " не знайдено!");
         }
 
-        ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenter(userRoleDto.getYouthCenterExternalId());
-        YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+        YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenter(userRoleDto.getYouthCenterExternalId()).getBody();
 
-        if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+        if (youthCenterDto == null) {
             throw new ValueNotFound("Молодіжний центр з зовнішнім айді " + userRoleDto.getYouthCenterExternalId() + " не знайдено!");
         }
 
         UserRoleDtoCreate userRoleDtoCreate = new UserRoleDtoCreate(youthCenterDto.getId(), userDto.getId(), userRoleDto.getUserRole());
-        ResponseEntity<com.katok.molodcentertelegrambot.services.userrole.UserRoleDto> userRoleDtoResponseEntity = userRoleClient.createUserRole(userRoleDtoCreate);
-        com.katok.molodcentertelegrambot.services.userrole.UserRoleDto userRoleDtoResult = userRoleDtoResponseEntity.getBody();
-
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userRoleDtoResult == null) {
-            return null;
-        }
+        com.katok.molodcentertelegrambot.services.userrole.UserRoleDto userRoleDtoResult = userRoleClient.createUserRole(userRoleDtoCreate).getBody();
 
         return userRoleDtoResult;
     }

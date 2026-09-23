@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.profile;
+package com.katok.molodcentertelegrambot.bot.profile.telegram;
 
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -9,14 +9,13 @@ import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileService {
+public class TelegramProfileService {
     private final InlineKeyboardMarkup registerKeyboard = new InlineKeyboardMarkup();
     private final InlineKeyboardMarkup backToMenuKeyboard = new InlineKeyboardMarkup();
 
@@ -45,13 +44,11 @@ public class ProfileService {
     }
 
     public SendMessage getMessage(long chatId, long userId) {
-        ResponseEntity<UserDto> responseUser = userClient.getUser(userId, null, null);
-
-        UserDto userDto = responseUser.getBody();
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
 
         SendMessage sendMessage;
 
-        if (responseUser.getStatusCode().is4xxClientError() || userDto == null) {
+        if (userDto == null) {
             sendMessage = new SendMessage(userId, notFound);
             sendMessage.parseMode(ParseMode.MarkdownV2);
             sendMessage.replyMarkup(registerKeyboard);

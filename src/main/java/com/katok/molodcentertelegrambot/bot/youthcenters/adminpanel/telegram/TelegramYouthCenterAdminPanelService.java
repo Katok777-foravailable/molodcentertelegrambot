@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.adminpanel.telegram;
 
-import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
+import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.bot.youthcenters.categories.callbacks.YouthCenterCategoriesPageCallbackHandler;
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
@@ -15,7 +15,6 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -27,7 +26,7 @@ public class TelegramYouthCenterAdminPanelService {
     private final YouthCenterClient youthCenterClient;
     private final UserClient userClient;
     private final UserRoleClient userRoleClient;
-    private final ProfileService profileService;
+    private final TelegramProfileService telegramProfileService;
 
     @Value("${youth-center.admin-panel.message}")
     private String message;
@@ -58,29 +57,26 @@ public class TelegramYouthCenterAdminPanelService {
             return sendMessage;
         }
 
-        ResponseEntity<UserDto> userDtoResponseEntity = userClient.getUser(userId, null, null);
-        UserDto userDto = userDtoResponseEntity.getBody();
+        UserDto userDto = userClient.getUser(userId, null, null).getBody();
 
-        if (userDtoResponseEntity.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(chatId, userId);
+        if (userDto == null) {
+            return telegramProfileService.getMessage(chatId, userId);
         }
         short adminRank = userDto.getAdminRank();
 
-        ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenter(externalId);
-        YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+        YouthCenterDto youthCenterDto = youthCenterClient.getYouthCenter(externalId).getBody();
 
-        if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+        if (youthCenterDto == null) {
             SendMessage sendMessage = new SendMessage(chatId, notExists);
             sendMessage.parseMode(ParseMode.MarkdownV2);
             return sendMessage;
         }
 
-        ResponseEntity<CustomPage<UserRoleDto>> userRoleDtoResponseEntity = userRoleClient.getUserRoleByYouthCenterIdAndUserId(userDto.getId(), youthCenterDto.getId(), 0);
-        CustomPage<UserRoleDto> userRoleDtoCustomPage = userRoleDtoResponseEntity.getBody();
+        CustomPage<UserRoleDto> userRoleDtoCustomPage = userRoleClient.getUserRoleByYouthCenterIdAndUserId(userDto.getId(), youthCenterDto.getId(), 0).getBody();
 
         short userRole = 0;
 
-        if (!userRoleDtoResponseEntity.getStatusCode().is4xxClientError() && userRoleDtoCustomPage != null) {
+        if (userRoleDtoCustomPage != null) {
             List<UserRoleDto> userRoleDtos = userRoleDtoCustomPage.getContent();
             if (userRoleDtos != null && !userRoleDtos.isEmpty()) {
                 userRole = userRoleDtos.getFirst().getRole();
