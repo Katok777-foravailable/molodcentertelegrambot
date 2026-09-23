@@ -1,6 +1,7 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.adminpanel.telegram;
 
 import com.katok.molodcentertelegrambot.bot.profile.ProfileService;
+import com.katok.molodcentertelegrambot.bot.youthcenters.categories.callbacks.YouthCenterCategoriesPageCallbackHandler;
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -104,7 +105,7 @@ public class TelegramYouthCenterAdminPanelService {
             keyboard.addRow(new InlineKeyboardButton(addUserRole).callbackData("add-new-user-role-" + externalId));
         }
         if (userRole >= changeCategories || adminRank >= controlYouthCenters) {
-            keyboard.addRow(new InlineKeyboardButton(changeCategory).callbackData("change-youth-center-categories-" + externalId));
+            keyboard.addRow(new InlineKeyboardButton(changeCategory).callbackData(YouthCenterCategoriesPageCallbackHandler.CALLBACK + externalId + "-0"));
         }
 
         keyboard.addRow(new InlineKeyboardButton(backToMenu).callbackData("start"));

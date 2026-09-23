@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private Long id;
     private String name;
+    private String externalId;
     private Long youthCenterId;
 }

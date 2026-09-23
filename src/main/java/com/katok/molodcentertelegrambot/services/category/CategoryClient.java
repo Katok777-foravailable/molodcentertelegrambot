@@ -14,6 +14,9 @@ public interface CategoryClient {
     @GetMapping("/{id}")
     ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id);
 
+    @GetMapping("/external-id/{externalId}")
+    ResponseEntity<CategoryDto> getCategoryByExternalId(@PathVariable String externalId);
+
     @PostMapping
     ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryCreateDto categoryCreateDto);
 

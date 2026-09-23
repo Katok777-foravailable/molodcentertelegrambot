@@ -42,39 +42,40 @@ public class TelegramYouthCenterService {
     public SendMessage getMessage(Long userId, long chatId, int page) {
         ResponseEntity<UserDto> responseEntityUserDto = userClient.getUser(userId, null, null);
         UserDto userDto = responseEntityUserDto.getBody();
-        if (responseEntityUserDto.getStatusCode().is4xxClientError() || userDto == null) {
-            return profileService.getMessage(chatId, userId);
-        }
+        InlineKeyboardMarkup youthCenterKeyboard = new InlineKeyboardMarkup();
+        if (!responseEntityUserDto.getStatusCode().is4xxClientError() && userDto != null) {
+            CustomPage<FavouriteYouthCenterDto> favouriteYouthCenterDtos = favouriteYouthCenterClient.getFavouriteYouthCenters(null, userDto.getId(), page);
+            List<YouthCenterDto> youthCenterDtos = new ArrayList<>();
 
-        CustomPage<FavouriteYouthCenterDto> favouriteYouthCenterDtos = favouriteYouthCenterClient.getFavouriteYouthCenters(null, userDto.getId(), page);
-        List<YouthCenterDto> youthCenterDtos = new ArrayList<>();
+            for (FavouriteYouthCenterDto favouriteYouthCenterDto : favouriteYouthCenterDtos.getContent()) {
+                ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenterById(favouriteYouthCenterDto.getYouthCenterId());
+                YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
 
-        for (FavouriteYouthCenterDto favouriteYouthCenterDto : favouriteYouthCenterDtos.getContent()) {
-            ResponseEntity<YouthCenterDto> youthCenterDtoResponseEntity = youthCenterClient.getYouthCenterById(favouriteYouthCenterDto.getYouthCenterId());
-            YouthCenterDto youthCenterDto = youthCenterDtoResponseEntity.getBody();
+                if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
+                    favouriteYouthCenterClient.deleteFavouriteYouthCenter(favouriteYouthCenterDto.getId());
+                    continue;
+                }
 
-            if (youthCenterDtoResponseEntity.getStatusCode().is4xxClientError() || youthCenterDto == null) {
-                favouriteYouthCenterClient.deleteFavouriteYouthCenter(favouriteYouthCenterDto.getId());
-                continue;
+                youthCenterDtos.add(youthCenterDto);
             }
 
-            youthCenterDtos.add(youthCenterDto);
-        }
-        InlineKeyboardMarkup youthCenterKeyboard = new InlineKeyboardMarkup();
-
-        for (YouthCenterDto youthCenterDto : youthCenterDtos) {
-            youthCenterKeyboard.addRow(
-                    new InlineKeyboardButton(youthCenterDto.getName()).callbackData("youth-center-page-" + youthCenterDto.getExternalId())
-            );
+            for (YouthCenterDto youthCenterDto : youthCenterDtos) {
+                youthCenterKeyboard.addRow(
+                        new InlineKeyboardButton(youthCenterDto.getName()).callbackData("youth-center-page-" + youthCenterDto.getExternalId())
+                );
+            }
         }
 
         youthCenterKeyboard.addRow(
                 new InlineKeyboardButton(findYouthCenterByLocation).callbackData("find-youth-center-by-location")
         );
-        youthCenterKeyboard.addRow(
-                new InlineKeyboardButton(left).callbackData("favourite-youth-center-page-" + Math.max(0, page - 1)),
-                new InlineKeyboardButton(String.valueOf(page + 1)).callbackData("easter-egg"),
-                new InlineKeyboardButton(right).callbackData("favourite-youth-center-page-" + (page + 1)));
+
+        if (!responseEntityUserDto.getStatusCode().is4xxClientError() && userDto != null) {
+            youthCenterKeyboard.addRow(
+                    new InlineKeyboardButton(left).callbackData("favourite-youth-center-page-" + Math.max(0, page - 1)),
+                    new InlineKeyboardButton(String.valueOf(page + 1)).callbackData("easter-egg"),
+                    new InlineKeyboardButton(right).callbackData("favourite-youth-center-page-" + (page + 1)));
+        }
 
         SendMessage sendMessage = new SendMessage(chatId, yourFavouriteYouthCenters);
         sendMessage.parseMode(ParseMode.MarkdownV2);
