@@ -1,6 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.categories.telegram;
 
-import com.katok.molodcentertelegrambot.bot.categories.categorypage.callbacks.CategoryPageCallbackHandler;
+import com.katok.molodcentertelegrambot.bot.category.categorypage.callbacks.CategoryPageCallbackHandler;
 import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.category.CategoryDto;

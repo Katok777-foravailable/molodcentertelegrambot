@@ -1,5 +1,6 @@
-package com.katok.molodcentertelegrambot.bot.categories.categorypage.telegram;
+package com.katok.molodcentertelegrambot.bot.category.categorypage.telegram;
 
+import com.katok.molodcentertelegrambot.bot.category.categoryedit.callbacks.ChangeCategoryCallbackHandler;
 import com.katok.molodcentertelegrambot.bot.start.callbacks.StartCallbackHandler;
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.category.CategoryClient;
@@ -29,7 +30,7 @@ public class TelegramCategoryPageService {
     private final CategoryClient categoryClient;
     private final YouthCenterClient youthCenterClient;
 
-    @Value("${category.not-exist}")
+    @Value("${category.not-exists}")
     private String notExist;
     @Value("${category.page}")
     private String categoryPage;
@@ -99,7 +100,7 @@ public class TelegramCategoryPageService {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
 
         if (canChange) {
-            keyboard.addRow(new InlineKeyboardButton(change).callbackData("change-category-" + categoryDto.getExternalId()));
+            keyboard.addRow(new InlineKeyboardButton(change).callbackData(ChangeCategoryCallbackHandler.CALLBACK + categoryDto.getExternalId()));
         }
 
         keyboard.addRow(new InlineKeyboardButton(backToMenu).callbackData(StartCallbackHandler.CALLBACK));

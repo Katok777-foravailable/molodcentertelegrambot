@@ -6,6 +6,7 @@ import com.katok.molodcentertelegrambot.bot.userregister.UserRegisterStatus;
 import com.katok.molodcentertelegrambot.exception.ValueNotFound;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
+import com.katok.molodcentertelegrambot.utils.AccessChars;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
@@ -17,19 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 public class TelegramUserRegisterService {
-    public final static Set<Character> accessChars = Collections.unmodifiableSet(new HashSet<>() {{
-        for (char letter : "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯя'".toCharArray()) {
-            add(letter);
-        }
-    }});
-
     private final FSMService fsmService;
     private final UserRegisterService userRegisterService;
     private final UserClient userClient;
@@ -88,7 +79,7 @@ public class TelegramUserRegisterService {
             return new SendMessage(chatId, nameWarn);
         }
         for (char letter : name.toCharArray()) {
-            if (accessChars.contains(letter)) {
+            if (AccessChars.accessChars.contains(letter)) {
                 continue;
             }
 
@@ -116,7 +107,7 @@ public class TelegramUserRegisterService {
             return new SendMessage(chatId, lastNameWarn);
         }
         for (char letter : lastName.toCharArray()) {
-            if (accessChars.contains(letter)) {
+            if (AccessChars.accessChars.contains(letter)) {
                 continue;
             }
 
