@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class AccessChars {
     public final static Set<Character> accessChars = Collections.unmodifiableSet(new HashSet<>() {{
-        for (char letter : "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯя'".toCharArray()) {
+        for (char letter : "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯя' ".toCharArray()) {
             add(letter);
         }
     }});

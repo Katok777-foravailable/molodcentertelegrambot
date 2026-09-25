@@ -26,6 +26,7 @@ app:
 permissions: # з якого рівня адміністратору можна робити дії
   create-youth-centers: 8
   change-user-roles: 6
+  create-global-categories: 9
   control-youth-centers: 5 # з якого рангу адмін може змінювати категорії і події молодіжних центрів
 
 user-roles:

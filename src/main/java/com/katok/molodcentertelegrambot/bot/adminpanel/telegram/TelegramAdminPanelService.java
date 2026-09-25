@@ -1,5 +1,6 @@
 package com.katok.molodcentertelegrambot.bot.adminpanel.telegram;
 
+import com.katok.molodcentertelegrambot.bot.adminpanel.category.categoryregister.callbacks.RegisterCategoryCallbackHandler;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
@@ -25,11 +26,16 @@ public class TelegramAdminPanelService {
     private String message;
     @Value("${admin-panel.create-new-youth-center}")
     private String createNewYouthCenter;
+    @Value("${admin-panel.create-new-global-category}")
+    private String createNewGlobalCategory;
 
     @PostConstruct
     public void keyboardInit() {
         adminKeyboard.addRow(
                 new InlineKeyboardButton(createNewYouthCenter).callbackData("create-new-youth-center")
+        );
+        adminKeyboard.addRow(
+                new InlineKeyboardButton(createNewGlobalCategory).callbackData(RegisterCategoryCallbackHandler.CALLBACK)
         );
     }
 

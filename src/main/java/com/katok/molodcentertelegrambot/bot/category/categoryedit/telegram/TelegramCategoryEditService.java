@@ -108,6 +108,12 @@ public class TelegramCategoryEditService {
     }
 
     public SendMessage setNewName(long chatId, long userId, String newCategoryName) {
+        if (newCategoryName.length() > 30) {
+            SendMessage sendMessage = new SendMessage(chatId, nameWarn);
+            sendMessage.parseMode(ParseMode.MarkdownV2);
+            return sendMessage;
+        }
+
         for (char letter : newCategoryName.toCharArray()) {
             if (AccessChars.accessChars.contains(letter)) {
                 continue;
