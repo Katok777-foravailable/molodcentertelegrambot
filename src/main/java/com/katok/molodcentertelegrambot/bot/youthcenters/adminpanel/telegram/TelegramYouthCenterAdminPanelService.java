@@ -1,7 +1,8 @@
 package com.katok.molodcentertelegrambot.bot.youthcenters.adminpanel.telegram;
 
 import com.katok.molodcentertelegrambot.bot.profile.telegram.TelegramProfileService;
-import com.katok.molodcentertelegrambot.bot.youthcenters.categories.callbacks.YouthCenterCategoriesPageCallbackHandler;
+import com.katok.molodcentertelegrambot.bot.youthcenters.category.categorypage.callbacks.YouthCenterCategoriesPageCallbackHandler;
+import com.katok.molodcentertelegrambot.bot.youthcenters.category.categoryregister.callbacks.RegisterYouthCenterCategoryCallbackHandler;
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.user.UserClient;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -40,6 +41,8 @@ public class TelegramYouthCenterAdminPanelService {
     private String backToMenu;
     @Value("${youth-center.admin-panel.change-category}")
     private String changeCategory;
+    @Value("${youth-center.admin-panel.register-category}")
+    private String registerCategory;
 
     @Value("${user-roles.change-user-roles}")
     private int changeUserRoles;
@@ -102,6 +105,7 @@ public class TelegramYouthCenterAdminPanelService {
         }
         if (userRole >= changeCategories || adminRank >= controlYouthCenters) {
             keyboard.addRow(new InlineKeyboardButton(changeCategory).callbackData(YouthCenterCategoriesPageCallbackHandler.CALLBACK + externalId + "-0"));
+            keyboard.addRow(new InlineKeyboardButton(registerCategory).callbackData(RegisterYouthCenterCategoryCallbackHandler.CALLBACK + externalId));
         }
 
         keyboard.addRow(new InlineKeyboardButton(backToMenu).callbackData("start"));

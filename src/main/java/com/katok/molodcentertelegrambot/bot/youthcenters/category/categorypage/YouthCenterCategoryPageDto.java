@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.youthcenters.categories;
+package com.katok.molodcentertelegrambot.bot.youthcenters.category.categorypage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class YouthCenterCategoryDto {
+public class YouthCenterCategoryPageDto {
     @Id
     private Long userId;
 

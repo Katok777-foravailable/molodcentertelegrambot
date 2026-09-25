@@ -1,4 +1,4 @@
-package com.katok.molodcentertelegrambot.bot.youthcenters.categories;
+package com.katok.molodcentertelegrambot.bot.youthcenters.category.categorypage;
 
 import com.katok.molodcentertelegrambot.services.CustomPage;
 import com.katok.molodcentertelegrambot.services.user.UserDto;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class YouthCenterCategorySecurity {
+public class YouthCenterCategoryPageSecurity {
     private final UserRoleClient userRoleClient;
 
     @Value("${general.no-permission}")

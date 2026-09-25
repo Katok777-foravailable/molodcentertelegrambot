@@ -13,7 +13,7 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 public class RegisterCategoryCallbackHandler implements CallbackUpdateHandler {
-    public final static String CALLBACK = "create-new-category";
+    public final static String CALLBACK = "register-new-category";
 
     private final TelegramRegisterCategoryService telegramRegisterCategoryService;
     private final TelegramBotExecutor executor;

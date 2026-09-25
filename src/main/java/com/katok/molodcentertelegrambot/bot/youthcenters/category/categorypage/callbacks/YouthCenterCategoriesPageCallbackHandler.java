@@ -1,6 +1,6 @@
-package com.katok.molodcentertelegrambot.bot.youthcenters.categories.callbacks;
+package com.katok.molodcentertelegrambot.bot.youthcenters.category.categorypage.callbacks;
 
-import com.katok.molodcentertelegrambot.bot.youthcenters.categories.telegram.TelegramYouthCenterCategoriesPageService;
+import com.katok.molodcentertelegrambot.bot.youthcenters.category.categorypage.telegram.TelegramYouthCenterCategoriesPageService;
 import com.pengrad.telegrambot.model.Update;
 import io.ksilisk.telegrambot.core.executor.TelegramBotExecutor;
 import io.ksilisk.telegrambot.core.handler.update.callback.CallbackUpdateHandler;

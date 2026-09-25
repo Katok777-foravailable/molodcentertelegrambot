@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class YouthCenterDto {
+    public final static int EXTERNAL_ID_LENGTH = 20;
+
     private Long id;
     private GeoLocation geoLocation;
     private String name;
